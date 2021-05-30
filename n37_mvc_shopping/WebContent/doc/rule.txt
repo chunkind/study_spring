@@ -1,0 +1,9 @@
+1. 메이븐 환경에서 할것.
+2. poem.xml에 dependency 추가
+3. MultiActionController 사용
+4. SimpleHandlerMapping 사용 안해도 됨.
+5. JdbcFramework를 사용했는데
+   MyBatis Mapper 환경으로 변경.
+6. web.xml에서 wiring 되는 빈 설정문서를
+   모듈화 ... businessBean.xml
+	      presentationBean.xml

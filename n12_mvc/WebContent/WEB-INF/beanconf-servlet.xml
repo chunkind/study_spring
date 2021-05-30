@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!--  빈 설정문서 :: 빈에 대한 정보를 등록하는 메타데이터
+      빈 :: 1) api 빈 등록...HandlerMapping/ViewResolver
+          2) User Definition Bean....HelloController
+-->
+
+<!--  HandlerMapping 빈등록 -->
+<bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+
+<!--  ViewResolver 빈등록 -->
+<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+   <property name="prefix" value="view/" />
+   <property name="suffix" value=".jsp" />
+</bean>
+
+<!-- 내가 만든 빈 등록 -->
+<bean name="/hello.do" class="controller.HelloController" />
+<bean name="/form.do" class="controller.FormController" />
+
+
+</beans>

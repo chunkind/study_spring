@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd">
+						
+	<bean id="bus1" class="collection3.Bus">
+		<constructor-arg name="company" value="kosta"/>
+		<constructor-arg name="number" value="104"/>
+	</bean>
+	
+	<bean id="bus2" class="collection3.Bus">
+		<constructor-arg index="0" value="kosta"/>
+		<constructor-arg index="1" value="105"/>
+	</bean>
+	
+	<bean id="school" class="collection3.PrivateSchool">
+		<property name="stuNames">
+			<list>
+				<value>김지현</value>
+				<value>김은지</value>
+				<value>유다형</value>
+				<value>엄지현</value>
+			</list>
+		</property>
+		<property name="busList">
+			<list>
+				<ref bean="bus1"/>
+				<ref bean="bus2"/>
+			</list>
+		</property>
+		<property name="busMap">
+			<map>
+				<entry key="1호차" value-ref="bus1"/>
+				<entry key="2호차" value-ref="bus2"/>
+			</map>
+		</property>
+	</bean>
+	
+</beans>
+
+
+
+
+
+
+
+
+
+

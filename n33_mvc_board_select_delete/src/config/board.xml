@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Board">
+
+	<insert id="write" parameterType="bvo">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT springboard_seq.nextVal FROM dual
+		</selectKey>
+		INSERT INTO springboard(no, title, content, w_date, id)
+		VALUES(#{no},#{title}, #{content}, sysdate, #{memberVO.id})
+	</insert>
+	
+	<select id="selectByNoForDate" resultType="string" parameterType="int">
+		SELECT
+		w_date 
+		FROM springboard
+		WHERE no=#{value}
+	</select>
+	<!--한 페이지당 게시물을 5개씩 조회하는 seelct 문...페이징 기능은 제외되었지만
+		최신페이지가 출력되는 것과 동일한 효과를 낸다.
+		jdbcType::
+		insert, delete, update인 경우 nullable column인 경우에만 필수이다...
+	 -->
+	 <resultMap type="bvo" id="boardListRM">
+	 	<result property="no" column="no"/>
+	 	<result property="title" column="title"/>
+	 	<result property="count" column="count"/>
+	 	<result property="writeDate" column="w_date"/><!-- 주의 -->
+	 	<result property="memberVO.name" column="name"/>
+	 </resultMap>
+	 
+	 <resultMap type="bvo" id="boardRM" extends="boardListRM">
+	  	<result property="content" column="content"/>
+	  	<result property="memberVO.id" column="id"/>
+	  </resultMap>
+	 
+	 <select id="getBoardList" resultMap="boardListRM">
+	 	SELECT no, title, count, w_date, name FROM
+		(SELECT no, title, count, w_date, CEIL(rownum/5) as page, name FROM
+		(SELECT no, title, count, to_char(w_date, 'YYYY.MM.DD') as w_date, name
+		FROM springboard s, member_ex m
+		WHERE s.id = m.id
+		ORDER BY no DESC)) WHERE page=#{value}
+	 </select>
+	 
+	 <!-- 상세글 보기 ::
+	 	  전체 글 목록에서 글의 타이틀을 틀릭하면 보여지는 페이지이다.
+	 	  위의 select문과 다른점이 있다면 content 라는 컬럼이 추가되어 진다는 것이다
+	 	  이런 부분 떄문에 resultMap을 다시 작성
+	  -->
+
+	  <select id="showContent" resultMap="boardRM">
+	  	SELECT no, title, count, w_date, content, m.id, m.name
+	  	FROM springboard s, member_ex m
+	  	WHERE s.id=m.id AND s.no=#{value}
+	  </select>
+	  
+	  <delete id="deleteBoard" parameterType="string">
+	  	DELETE FROM springboard WHERE no=#{value}
+	  </delete>
+	  
+	  <update id="updateBoard" parameterType="bvo">
+	  	UPDATE springboard SET title=#{title}, content=#{content}
+	  	WHERE no=#{no}
+	  </update>
+	  
+	  <update id="updateCount">
+	  	UPDATE springboard SET count=count+1 WHERE no=#{no}
+	  </update>
+</mapper>	

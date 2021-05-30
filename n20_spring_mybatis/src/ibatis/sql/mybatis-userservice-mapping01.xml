@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL definition -->
+<mapper namespace="User01">
+	<select id="getUserList" resultType="user">
+		SELECT
+		user_id AS userId,
+		user_name AS userName,
+		password AS password,
+		age AS age,
+		grade AS grade,
+		reg_date AS regDate
+		FROM users
+	</select>
+	<!-- namespace, parameterType, resultType, #{value}, #{userId} -->
+	<!-- #{value} | #{userId}
+	1.	#{value} :: hashmap 문법
+					단순한 value 값을 지정해서 인자값으로 넣을때 사용
+					getter와 전혀 상관없다.
+					단순한 파라미터 값을 주입할때 사용.
+					
+	2.	#{userId} :: 해당 코드에서는 #{value} 대신에 사용해도 실행된다.
+					 둘의 분명한 차이점은 알아야 한다.
+					 getUserId()값을 의미한다.
+					 
+	3.	parameterType :: 쿼리문이 수행될때 파라미터로 전달되는 값을 갖는 객체를 선언
+	4.	resultType :: 쿼리문이 수행된 후 리턴되는 결과값을 갖는 객체 타입을 선언
+					  주로 Collection을 선언하기 보다는 제너릭을 바로 사용한다.
+	5.	j2ee api 에서 제공되는 라이브러리 클래스 중에서 많이 사용되는 것들은
+		MyBatis에서 대부분 알리야스로 처리해 놓았다.
+		java.lang.String :: string
+		java.lang.Byte, Long, Float, Double, Ineterger.. :: byte, long, float, double, int
+		java.util.HashMap :: hashmap
+		java.util.ArrayList :: arraylist
+		java.util.Date :: date
+		byte :: _byte
+		int :: _int
+		short :: _short
+		double :: _double
+	 -->
+	<select id="getUser" parameterType="string" resultType="user">
+		SELECT
+		user_id AS userId,
+		user_name AS userName,
+		password AS password,
+		age AS age,
+		grade AS grade,
+		reg_date AS regDate
+		FROM users
+		WHERE user_id = #{userId}
+	</select>
+
+	<select id="findUserId" parameterType="user" resultType="string">
+		SELECT
+		user_name
+		FROM users
+		WHERE user_id = #{userId} AND password = #{password}
+	</select>
+</mapper>
+<!-- 네임케이스의 역할?? -->

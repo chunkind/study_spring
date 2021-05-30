@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:c="http://www.springframework.org/schema/c" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<!-- 4. 라이브러리빈 설정부분 :: handlerMapping, viewResolver -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/" />
+		<property name="suffix" value=".jsp" />
+		<!-- 추가 -->
+		<property name="order" value="1" />
+	</bean>
+
+
+	<!-- 5. 컨트롤러 설정부분 :: methodNameResolver, MemberController -->
+	<bean id="methodNameResolver"
+		class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName" value="command" />
+	</bean>
+
+	<!-- 6. multiPartResolver -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="maxUploadSize" value="-1" />
+	</bean>
+
+	<!-- 7. 게시판 관리 :: BoardDao, BoardService,BoardController 각각 아이디는 boardDao, 
+		boardService로 하자 -->
+	<bean name="/board.do" class="controller.BoardController">
+		<property name="methodNameResolver" ref="methodNameResolver" />
+		<property name="boardService" ref="boardService" />
+		<property name="path">
+			<value>C:\\test\\upload\\</value>
+		</property>
+	</bean>
+	<bean name="/member.do" class="controller.MemberController">
+		<property name="methodNameResolver" ref="methodNameResolver" />
+		<property name="memberService" ref="memberService" />
+	</bean>
+
+	<!-- DownloadView를 위한 빈 설정. -->
+	<bean id="beanNameResolver"
+		class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0" />
+	</bean>
+
+	<bean name="downloadView" class="util.DownloadView" />
+
+	<!-- JsonView -->
+	<bean name="JsonView"
+		class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+</beans>
+
+
+
+
+
+
+
+
+
+
+

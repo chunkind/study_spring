@@ -1,0 +1,45 @@
+*****SpringMVC FileUpload 게시판*****
+
+step5
+		파일업로드 게시판 구현 
+		환경 설정 : library 추가 
+		
+		write.jsp -> file upload 기능 추가 
+		
+		동일한 파일명이 업로드되어 중복되는 것을 
+		방지하기 위해 시간_파일명으로 변경하여 
+		서버에 저장 (원본파일명과 변경파일명이 함께 저장) 
+		
+		변경사항 
+			 1. db modeling : table 새로 생성 
+			 2. BoardVO 수정 : 변수 추가 (uploadFile 관련)
+			 3. board.xml 수정 : insert sql 수정 
+			                     resultMap id="boardRM" 수정
+					     select id="showContent" 수정
+					     (update id="updateBoard" 수정)
+			 4. write.jsp 수정 : Form 
+			 5. BoardController 수정
+			 6. show_content.jsp 추가
+			 7. util 패키지 추가	
+			 8. dispatcher-servlet.xml : (혹은 presentationConf.xml)
+			    FileUpload(MultipartFile,downloadView) 설정 추가 
+			    BoardController 의 path proerty부분 추가
+			    fileDownload 기능 추가
+			 9. File Download를 위한 show_content 수정/설정문서에 downloadView 등록
+			 9.update 부분은 따로 다룬다...Ajax로 연결
+
+db 설계 				   
+create sequence springboard_upload_seq nocache;
+drop table springboard_upload;
+create table springboard_upload(
+			no number primary key,
+			title varchar2(100) not null,
+			content varchar2(1000) not null,
+			count number default 0,
+			w_date date not null,
+			id varchar2(50) not null,
+			orgfilename varchar2(500),
+			newfilename varchar2(500),
+			constraint fk_upload_id foreign key(id) references member(id)
+		);
+select * from 	springboard_upload order by no desc;

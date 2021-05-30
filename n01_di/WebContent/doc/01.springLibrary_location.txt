@@ -1,0 +1,2 @@
+dist 받는곳:: http://repo.springsource.org/release/org/springframework/spring/
+dependency 받는곳 :: http://docs.spring.io/downloads/nightly/release-download.php?project=SPR

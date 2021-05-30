@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id = "message1" class = "sample.MessageBeanImpl">
+		<constructor-arg value = "그녀"/>
+		<property name="greeting" value = "안녕..보고싶었어"/>
+		<property name="outputter" ref = "output"/>
+	</bean>
+	
+	<!-- sample>out.txt 파일로 메세지가 출력되도록.. -->
+	<bean id = "output" class = "sample.FileOutputter">
+		<property name="filePath" value = "src/sample/out.txt"/>
+	</bean>
+</beans>

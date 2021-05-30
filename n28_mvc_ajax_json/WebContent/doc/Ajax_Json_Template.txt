@@ -1,0 +1,28 @@
+================= Ajax Template :: Json 방식 =================
+1. Json 방식(객체를 전달받음)으로 Ajax 프로그램을 작성하려면
+   Library 를 하나 추가해야 한다.
+   org.codehaus.Jackson을 추가한다.
+2. code template
+   <script type = "text/jacascript">
+	var xhr;
+	function requestStart(){
+		xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = callback;
+		xhr.open("get", "url?id="+id, true);
+		xhr.send(null);
+	}
+	function callback() { //응답시 수행
+		if(xhr.readyStatus==4) {
+		  if(xhr.status==200) {
+		  document.getElementById("result").innerHTML =
+		    xhr.responseText;
+	}
+	function callback() { //응답시 수행
+		if(xhr.readyStatus==4) {
+		  if(xhr.status==200) {
+		 //JSON 방식.. Json.parse()를 이용함.
+		    var jsonDate = JSON.parse();
+	}
+   </script>
+
+   <span id = "result"></span>

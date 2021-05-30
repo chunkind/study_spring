@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 빈 등록 :: ViewResolver(2개)(디폴트한개, 성능좋은거한개), pmnr, testC -->
+	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+
+	<!-- 컨트롤러가 수행된 후 리턴하는 객체가 ModelAndView이다. ModelAndView에는 뷰페이지의 이름이 들어있다. 
+		페이지의 물리적인 위치 정보는 InternalResourceViewResolver 이지만 하나의 디렉토리 밖에 표시할 수 없는 한계가 
+		있다. 그래서 우리는 BeanNameViewResolver의 사용법을 익혀야 한다. :: BeanNameViewResolver는 JstlView와 
+		함께 쓰이는 것을 유의하자. -->
+	<!-- viewResolver 2개가 동시에 돌수는 없다. 한번에 하나씩 동작하도록 하기 위해서 반드시 우선순위를 부여해야 한다. -->
+	<bean id="ViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/response/result/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="1" />
+	</bean>
+	<!-- 우선순위를 0으로 했기 때문에 view Page의 이름을 먼저 찾고 이 이름이 없으면 우선순위 1로 올라가서 다시 찾는다. 
+		beanNameResolver에는 view page 를 요청하는 이름이 따로 지정되어 있지 않다. 따로 설정을 해야 하는데..JstlView의 
+		역할이다. -->
+	<bean id="beanNameResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0" />
+	</bean>
+
+	<bean name="board_result" class="org.springframework.web.servlet.view.JstlView">
+		<property name="url" value="board/result/find_ok.jsp" />
+	</bean>
+
+	<bean name="product_result" class="org.springframework.web.servlet.view.JstlView">
+		<property name="url" value="product/result/find_ok.jsp" />
+	</bean>
+
+	<bean id="methodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName" value="command" />
+	</bean>
+
+	<bean name="/test.do" class="controller.TestController">
+		<property name="methodNameResolver" ref="methodNameResolver"></property>
+	</bean>
+
+</beans>

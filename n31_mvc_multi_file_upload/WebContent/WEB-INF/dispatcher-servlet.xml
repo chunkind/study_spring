@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="1" />
+	</bean>
+
+	<!-- downloadView를 위한 ViewResolver -->
+	<bean id="beanNameResolver"
+		class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0"></property>
+	</bean>
+
+	<!-- MultipartFile -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="maxUploadSize" value="-1" />
+	</bean>
+
+	<bean id="methodNameResolver"
+		class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName" value="command" />
+	</bean>
+
+	<bean name="/multiupload.do" class="controller.MultiFileUploadController">
+		<property name="methodNameResolver" ref="methodNameResolver" />
+		<property name="path">
+			<value>C:\\test\\upload\\</value>
+		</property>
+	</bean>
+
+	<bean name="downloadView" class="util.DownloadView" />
+</beans>

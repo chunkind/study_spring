@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace = "Item">
+	
+	<resultMap type="item" id="itemSelectMap">
+		<result property="itemId" column="item_id" jdbcType="NUMERIC"/>
+		<result property="itemName" column="item_name" jdbcType="VARCHAR"/>
+		<result property="price" column="price" jdbcType="NUMERIC"/>
+		<result property="description" column="description" jdbcType="VARCHAR"/>
+		<result property="pictureUrl" column="picture_url" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<sql id = "selectItem">
+		SELECT
+		item_id, item_name, price, description, picture_url
+		FROM item
+	</sql>
+	
+	<select id="findAll" resultMap="itemSelectMap">
+		<include refid="selectItem"/>
+	</select>
+	
+	<select id="findByPrimaryKey" parameterType="int" resultMap="itemSelectMap">
+		<include refid="selectItem"/>
+		WHERE item_id = #{value}
+	</select>
+</mapper>

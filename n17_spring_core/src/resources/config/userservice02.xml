@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!-- 모오한 생성자를 다루는 옵션중 index 를 사용. -->
+<bean id = "user06" class = "spring.service.domain.User">
+	<constructor-arg value = "06" index = "0"/>
+	<constructor-arg value = "06유저" index = "2"/>
+	<constructor-arg value = "0606" index = "1"/>
+</bean>
+
+<bean id = "user07" class = "spring.service.domain.User">
+	<constructor-arg value = "07" type = "int"/>
+	<constructor-arg value = "07유저" type = "java.lang.String"/>
+	<constructor-arg ref = "password" index = "1"/>
+</bean>
+
+<!-- 
+BeanFactory :: 부모
+	|
+ApplicationContext :: 자식
+이걸 사용하는 경우 상수값, 간단한 프라퍼티 외부 파일에 있는 정보를 끌어당길 수 있다.
+PropertyPlaceholderConfigurer의 setLocation()을 이용 :: name = "location"
+이때 userservice02.properties를 인자값으로 세팅하면 된다. :: value = "~.properties"를 넣으면 된다.
+
+::
+wiring이 되었다면 이제 상수값의 key를 이용해서 값을 빈으로 등록할 수 있다.
+이때 value = "${키}" 를 통해서 값을 할당받는다..EL 표현식 사용..
+"자바는 계단이다."
+
+PropertyPlaceholderConfigurer :
+setLocation()
+setLocations()
+<property name = "locations">
+	<list>
+		<value>userservice02.properties</value>
+		<value>dbconn.properties</value>
+	</list>
+</property>
+-->
+
+<bean id = "propertyConfigure"
+	class = "org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<property name="location" value = "config/userservice02.properties"/>
+</bean>
+<!-- EL 사용 Key값을 EL로 넣어 준다. -->
+<bean id = "user08" class = "spring.service.domain.User">
+	<property name="age" value = "${user.age}"/>
+	<property name="userId" value = "${user.userId}"/>
+	<property name="password" value = "${user.password}"/>
+</bean>
+</beans>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+	 PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	 "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 
+		 1. jdbc.properties 파일 와이어링 2. vo를 등록....TypeAliases> TypeAlias...product 
+		 3. DataSource를 등록 environments > environment > transactionManager,datasource..el기법으로 
+		 4. sqlCode를 매핑..mappers>mapper > sql/myproduct.xml
+	-->
+	<!-- db정보 참조 할 위치/파일 지정 -->
+	<properties resource="config/jdbc.properties" />
+	
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+
+	<!-- MemberVO 생성 //alias로 사용할 이름 지정//sql/member.xml에서 사용 할 이름 -->
+	<typeAliases>
+		<typeAlias type="model.MemberVO" alias="member" />
+	</typeAliases>
+	
+	<!-- DB정보 주입 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<!-- POOLED는 커넥션풀 방식(서블릿사용시//web사용시 사용) UNPOOLED 드라이버메니저 방식(POJO방식에서 사용//CLASS에서 
+				MAIN을 사용하여 테스트 할시 사용) 여기에선 단위테스트에서 사용된다.쿼리문//DAO//SERVICE -->
+			<dataSource type="UNPOOLED">
+				<property name="driver" value="${JDBC.Driver}"/>
+				<property name="url" value="${JDBC.ConnectionUrl}"/>
+				<property name="username" value="${JDBC.Username}"/>
+				<property name="password" value="${JDBC.Password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<mappers>
+		<!-- 쿼리문 참조할 위치/파일 정보 -->
+		<mapper resource="sql/member.xml" />
+	</mappers>
+	
+</configuration>

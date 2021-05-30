@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 1. 빈 설정 :: MemberDaoImpl, JdbcTemplate, DataSource -->
+	<bean id = "dataSource" class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value = "oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value = "jdbc:oracle:thin:@127.0.01:1521:xe"/>
+		<property name="username" value = "scott"/>
+		<property name="password" value = "tiger"/>
+	</bean>
+	
+	<!-- JdbcTemplate 빈 설정 -->
+	<bean id = "jdbcTemplate" class = "org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref = "dataSource"/>
+	</bean>
+	
+	<!-- MemberDaoImpl 빈 설정 : memberDaoImpl -->
+	<bean id = "memberDaoImpl" class = "jdbc.MemberDaoImpl">
+		<property name="jdbcTemplate" ref = "jdbcTemplate"/>
+	</bean>
+</beans>

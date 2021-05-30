@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- ##이것이 왜 안되는지 너무너무 궁금하다. -->
+	<bean id="emp1" class="collection2.Employee">
+		<constructor-arg name="name" value="장발짱"/>
+		<constructor-arg name="age" value="60"/>
+		<constructor-arg name="addr" value="프랑스"/>
+	</bean>
+	
+	<bean id="emp2" class="collection2.Employee">
+		<constructor-arg type="java.lang.String" value="민속촌"/>
+		<constructor-arg type="int" value="19"/>
+		<constructor-arg type="java.lang.String" value="홍길동"/>
+	</bean>
+
+	<bean id="emp3" class="collection2.Employee">
+		<constructor-arg index="0" value="전지현"/>  
+		<constructor-arg index="1" value="33"/>
+		<constructor-arg index="2" value="서초동"/>
+	</bean>
+	
+	<bean id="company" class="collection2.CompanyImpl">
+		<property name="employees">
+			<list>
+				<ref bean="emp1"/>			
+				<ref bean="emp2"/>	
+				<ref bean="emp3"/>	
+			</list>
+		</property>
+	</bean>
+		
+</beans>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+<!-- userservice02.xml에서는 PropertyPlaceholderConfigurer 클래스를 직접
+	빈으로 등록하고, setLocation()을 property name = "location" 의 값으로 지정하다보니
+	코드가 어려워졌다.. 이것을 태그로 지정할 수 있는 방법이 있다.
+	이 방법을 더 많이 쓴다. 꼭 알아두자.
+	하지만 properties 파일에 들어있는 resource를 ${} 로 접근하는 방법은 동일하다.
+ -->
+ <context:property-placeholder location="classpath:config/userservice02.properties"/>
+ <bean id = "user08" class = "spring.service.domain.User">
+ 	<property name = "age" value = "${user.age}"/>
+ 	<property name = "userId" value = "${user.userId}"/>
+ 	<property name = "password" value = "${user.password}"/>
+ </bean>
+<!-- 
+	${}를 가지고는 메타데이타의 resource에만 접근할 수 있다..2.XXX 대 버전
+	#{}이 나와서 완벽한 와이어링의 모습을 보여준다.
+	아래 예제를 일단 봅시다.
+	util스키마를 일단 추가.
+	util:properties를 사용한다
+-->
+	<util:properties id = "up" location = "classpath:config/userservice03.properties"/>
+	<bean id = "user09" class = "spring.service.domain.User">
+		<property name = "age" value = "#{up['user.age']}"/>
+		<property name = "userId" value = "#{up['user.userId']}"/>
+		<property name = "password" value = "#{up['user.password']}"/>
+	</bean>
+	
+	<!-- 아래 빈 에서 사용할 것이다.. -->
+	<bean id = "user10" class = "spring.service.domain.User">
+		<property name="age" value = "100"/>
+		<property name="userId" value = "10유저"/>
+		<property name="password" value = "1010"/>
+	</bean>
+	
+	<bean id = "user11" class = "spring.service.domain.User">
+		<property name="age" value = "#{user10.age}"/>
+		<property name="userId" value = "#{user10.userId}"/>
+		<property name="password" value = "#{user10.password}"/>
+	</bean>
+	
+	<!-- user12에서 테스트하기 위한 빈을 일단 하나 등록..client -->
+	<bean id = "client" class = "spring.service.domain.Client"/>
+
+	<bean id = "user12" class = "spring.service.domain.User">
+		<property name = "age" value = "#{client.age}"/>
+		<property name = "userId" value = "#{client.info[0]}"/>
+		<property name = "password" value = "#{client.info[1]}"/>
+	
+	</bean>
+</beans>

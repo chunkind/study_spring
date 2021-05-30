@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+	
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	<bean id = "audio" class = "kosta.product.service.audio.AudioImpl"/>
+	<bean id = "video" class = "kosta.product.service.tv.TvImpl"/>
+	<bean id = "tv" class = "kosta.product.service.tv.TvImpl"/>
+	<bean id = "advice" class = "kosta.aop.LoggingAdvice"/>
+
+<!-- 
+	PointCut 지정 조건 ::
+	1) public으로 시작
+	2) kosta > product 패키지 밑에 있는 모든 패키지와 모든 클래스에 있는 모든 메소드에 적용
+	3)pointcut의 아이디는 logPointcut
+ -->
+ 
+ 	<aop:config>
+ 		<aop:aspect id = "logAspect" ref = "advice"/>
+ 	</aop:config>
+</beans>

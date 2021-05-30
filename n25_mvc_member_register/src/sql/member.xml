@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 쿼리문 사용시 사용할 이름지정(단위테스트시)//Member.registerMember와 같은 방식으로 사용 -->
+<mapper namespace="Member">
+
+	<!-- resultMap:: 만들어두면 모든 쿼리문의 리턴타입으로 사용 가능하여 편리하다. -->
+	<resultMap type="member" id="resultMap">
+		<result property="id" column="id" jdbcType="VARCHAR" />
+		<result property="name" column="name" jdbcType="VARCHAR" />
+		<result property="password" column="password" jdbcType="VARCHAR" />
+		<result property="address" column="address" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- SELECT문을 지정해두고 필요할때 가져다 쓰면 좋다. -->
+	<sql id="select-member">
+		SELECT
+		id, name , address
+		FROM MEMBER_EX
+	</sql>
+	
+	<!-- insert -->
+	<insert id="registerMember">
+		INSERT INTO MEMBER_EX VALUES(#{id},#{name},#{password},#{address})
+	</insert>
+	
+	<!-- idcheck -->
+	<select id="idcheck" parameterType="string" resultMap="resultMap">
+		<include refid="select-member" />
+		<!-- parameterType이 string,int등 한 가지만 들어올경우#{value}사용 //#{string}등과 같이 
+			사용 가능하다 들어오는 인자값과 맞춰주는게 보기 좋을듯하다. -->
+		WHERE id = #{value}
+	</select>
+	
+	<!-- login -->
+	<!-- SqlMapConfig에서 alias준 MemberVO의 이름으로 인자값에 넣어준다. ex)parameterType="member" -->
+	<select id="login" parameterType="member" resultMap="resultMap">
+		<!-- <include>sql로 생성한 내용 참조 //한개 생성으로 여러 sql문에서 사용가능 -->
+		<include refid="select-member" />
+		<!-- 인자값이 VO일 경우 getter의 이름으로 넣어준다. ex)getId-#{id} :: getPassword-#{password} -->
+		WHERE id=#{id} and password=#{password}
+	</select>
+	
+	<!-- updateMember -->
+	<update id="updateMember" parameterType="member">
+		UPDATE MEMBER_EX SET name=#{name} , password=#{password} ,
+		address=#{address}
+		WHERE id=#{id}
+	</update>
+	
+	<!-- findByAddress -->
+	<select id="findByAddress" parameterType="string" resultMap="resultMap">
+		<include refid="select-member" />
+		WHERE address=#{value}
+	</select>
+	
+	<!-- getAddressKind -->
+	<select id="getAddressKind" resultType="string">
+		<!-- 주소만 가져온다. DISTINCT를 이용해 중복된 결과는 가져오지 않는다. -->
+		select DISTINCT address from MEMBER_EX
+	</select>
+
+	<!-- getAllMember -->
+	<select id="getAllMember" resultMap="resultMap">
+		<!-- 모든 정보를 가져오면 되므로 include만 하면 된다. -->
+		<include refid="select-member" />
+	</select>
+	
+</mapper>

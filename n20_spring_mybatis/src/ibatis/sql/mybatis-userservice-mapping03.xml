@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- CRUD를 다 해보겠다... 심플하게.. 
+	 select :: session.selectList() : List
+	 		   session.selectOnt() : User, String
+	 insert :: session.insert("id", param) : (1/0)
+	 delete :: session.delete("id", param) : (1/0)
+	 update :: session.update("id",user) : (1/0)
+	 
+	 insert, update, delete()를 수행할때는 반드시
+	 session.commit()을 해줘야 실질적으로 디비에 반영된다.. 단위테스트시 주의
+	 SpringMVC에서는 오히려 해두면 에러난다.
+	 왜냐면 내부적으로 알아서 진행되기 때문이다. 즉 내장되어서 처리되어 진다.
+-->
+<mapper namespace="User03">
+	<insert id="addUser" parameterType="user">
+		INSERT
+		INTO users(user_id, user_name, password, age, grade, reg_date)
+		VALUES(
+			#{userId},#{userName}, #{password}, #{age}, #{grade}, #{regDate}
+		)
+	</insert>
+	
+	<update id="updateUser" parameterType="user">
+		UPDATE users
+		SET user_name = #{userName}
+		WHERE user_id = #{userId}
+	</update>
+	
+	<delete id="removeUser" parameterType="string">
+		DELETE
+		FROM users where
+		user_id = #{value}
+	</delete>
+	
+	
+</mapper>

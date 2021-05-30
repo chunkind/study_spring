@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- bean을 등록 :: SpringJdbcUserDaoImpl04 -->
+<!-- 외부 Properites 파일을 와이어링 해줘야 한다. -->
+<!-- properties확장자를 빼야한다. -->
+<bean id= "messageSource" class = "org.springframework.context.support.ResourceBundleMessageSource">
+	<property name="basename" value = "resources/sql/spring-userservice-sql"/>
+</bean>
+
+<bean id = "messageSourceAcessor" class = "org.springframework.context.support.MessageSourceAccessor">
+	<constructor-arg ref = "messageSource"/>
+</bean>
+
+<bean id="springJdbcUserDaoImpl04" class="spring.service.user.impl.SpringJdbcUserDaoImpl04">
+	<property name="dataSource" ref="dataSource04"/>
+	<property name="messageSourceAccessor" ref = "messageSourceAcessor"/>
+</bean>
+</beans>

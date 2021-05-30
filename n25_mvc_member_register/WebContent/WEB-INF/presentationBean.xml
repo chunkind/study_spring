@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- businessBean.xml보다 나중에 생성됨 -->
+	<!-- methodNameResolver//멀티컨트롤러에서 컨트롤러 판별용 변수 이름지정 -->
+	<bean id="methodNameResolver"
+		class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<!-- commad가 들어오면 값을 읽어 핸들러 mapping으로 보내주도록 한다. -->
+		<property name="paramName" value="command" />
+	</bean>
+	
+	<!-- 멀티컨트롤러 생성 /member.do가 들어올시 MemberController 이동하도록 -->
+	<bean name="/member.do" class="controller.MemberController">
+		<!-- command가 들어오면 핸들링하도록 만들어 놓은 Resolver주입 -->
+		<!-- MultiActionController를 상속 받았으므로 methodNameResolver필드를 가지고 있다. -->
+		<property name="methodNameResolver" ref="methodNameResolver" />
+		<!-- memberService필드에 memberService를 상속 받은 memberServiceImpl을 주입 (다형성) -->
+		<property name="memberService" ref="memberServiceImpl" />
+	</bean>
+	
+</beans>

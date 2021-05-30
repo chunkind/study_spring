@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="book" class="collection1.Book">
+		<property name="title" value="Spring"/>
+		<property name="price" value="23000"/>
+	</bean>
+	
+	<bean id="book2" class="collection1.Book">
+		<property name="title" value="JSP"/>
+		<property name="price" value="17000"/>
+	</bean>
+	
+	<bean id="stu" class="collection1.Student">
+		<property name="stuId" value="10499"/>
+		<property name="books">
+			<list>
+				<ref bean="book"/>
+				<ref bean="book2"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="car" class="collection1.Car">
+		<constructor-arg value="Rexton"/>
+	</bean>
+	
+	<bean id="owner" class="collection1.Owner">
+		<constructor-arg value="장발이짱"/>
+		<property name="cars">
+			<list>
+				<ref bean="car"/>
+			</list>
+		</property>
+	</bean>
+	
+</beans>

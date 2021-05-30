@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- ViewResolver -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="WEB-INF/views/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+	<bean id="mockService" class="spring.mvc.model.MockService" /> <!-- 원래는 DAO주입받는다 -->
+
+	<!-- MultiAction 빈 설정 -->
+	<bean id="methodNameResolver"
+		class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName" value="mode" />
+	</bean>
+	<bean name="/car1.do" class="spring.mvc.controller.CarTestController">
+		<property name="methodNameResolver" ref="methodNameResolver" />
+		<constructor-arg ref="mockService" />
+	</bean>
+	<bean name = "/testMulti.do" class = "spring.mvc.controller.TestMultiController">
+		<property name="methodNameResolver" ref = "methodNameResolver"/>
+	</bean>
+	
+</beans>

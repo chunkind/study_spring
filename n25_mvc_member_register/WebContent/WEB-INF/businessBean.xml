@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+		
+	<!-- 외부 참조 파일 참조 -->
+	<context:property-placeholder location="classpath:config/jdbc.properties" />
+	
+	<!-- 데이터소스 생성 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<!-- 스프링에서 생성시 name 타입//mybatis와 다름으로 주의 -->
+		<property name="driverClassName" value="${JDBC.Driver}" />
+		<property name="url" value="${JDBC.ConnectionURL}" />
+		<property name="username" value="${JDBC.Username}" />
+		<property name="password" value="${JDBC.Password}" />
+	</bean>
+
+	<!-- 스프링 세션팩토리 생성 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 위에서 생성한 데이터 소스 주입 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- myBatis 정보가 담겨있는 xml파일 정보 주입 -->
+		<property name="configLocation" value="classpath:config/sqlMapConfig.xml"/>
+	</bean>
+	
+	<!-- mybatis SqlSessionTemplate 생성 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<!-- 생성자를 통하여 sqlSessionFactory 참조//session 생성 -->
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- dao -->
+	<!-- memberDaoImpl 생성 -->
+	<bean id="memberDaoImpl" class="model.MemberDaoImpl">
+		<!-- 위에서 만든 세션 주입 -->
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+
+	<!-- service -->
+	<!-- memberServiceImpl생성 -->
+	<bean id="memberServiceImpl" class="model.MemberServiceImpl">
+		<!-- setter를 통하여 DaoImpl주입 memberDao를 memberDaoImp이 상속 받았으므로 다형성에의해 memberDao Type으로 주입 -->
+		<property name="memberDao" ref="memberDaoImpl" />
+	</bean>
+	
+</beans>

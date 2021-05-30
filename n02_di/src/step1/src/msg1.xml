@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!-- msg1이라는 이름으로 빈을 등록 -->
+	<bean id = "msg1" class = "step1.src.MyserviceImpl">
+	
+		<!-- <property name="msg">
+			<value>Hello MyServiceImpl!!</value>
+		</property> -->
+		
+		<property name="msg" value = "Hello MyServiceImpl!!"/>
+		
+	</bean>
+	
+	<!-- javaCode :: msg1.setMsg("Hello MyServiceImpl!!"); -->
+</beans>

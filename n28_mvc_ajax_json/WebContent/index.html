@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script type="text/javascript">
+	var xhr;
+	function startRequest() {
+		xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = callback;
+		xhr.open("get", "test.do?command=searchById", true);
+		xhr.send(null);
+	}
+	function callback() {
+		if(xhr.readyState ==4) {
+			if(xhr.status == 200) {
+				//Json을 이용해서 PersonVO의 정보를 출력..
+				var jsonData = JSON.parse(xhr.responseText); //jsonData를 어떻게 사용하는지 확인.
+				alert(jsonData.person.name+ " " + jsonData.person.address);
+			}
+		}
+	}
+</script>
+<body>
+<h2>비동기 통신..Ajax..Json을 이용</h2><p>
+<a href = "test.do?command=insert">동기통신</a><p>
+<input type = "button" value = "비동기 통신" onclick="startRequest()">
+</body>
+</html>

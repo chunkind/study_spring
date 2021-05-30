@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+<context:annotation-config></context:annotation-config>
+	<!-- 1. 빈 설정 :: MemberDaoImpl, JdbcTemplate, DataSource -->
+	
+	<!-- DataSource 빈 설정 -->
+	<bean id = "dataSource" class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value = "oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value = "jdbc:oracle:thin:@127.0.01:1521:xe"/>
+		<property name="username" value = "scott"/>
+		<property name="password" value = "tiger"/>
+	</bean>
+	
+	<!-- MemberDaoImpl 빈 설정 : memberDaoImpl -->
+	<bean id = "memberDaoImpl" class = "jdbc2.MemberDaoImpl">
+		<property name="dataSource" ref = "dataSource"/>
+	</bean>
+</beans>
+
+<!-- 
+아무리 Annotation 기반으로 가더라도
+결국은 dataSource 같은 경우에는 xml을 생략할 수 없다.
+ -->

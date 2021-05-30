@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<!-- 1. jdbc.properties 파일 placeholder, BasicDataSource빈 등록 -->
+	<context:property-placeholder location="classpath:config/jdbc.properties" />
+
+	<!-- db 정보 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${JDBC.Driver}" />
+		<property name="url" value="${JDBC.ConnectionURL}" />
+		<property name="username" value="${JDBC.Username}" />
+		<property name="password" value="${JDBC.Password}" />
+	</bean>
+
+	<!-- 2. MyBatis 설정 부분 :: sqlSessionFactory,sqlSession 둥록 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:config/SqlMapConfig.xml" />
+	</bean>
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+
+	<!--3. MemberDao/MemberService 설정 ::id는 각각 memberDao, memberService -->
+	<bean id="memberDao" class="model.MemberDao" p:sqlSession-ref="sqlSession" />
+	<bean id="memberService" class="model.MemberService"
+		p:memberDao-ref="memberDao" />
+	<bean id="boardDao" class="model.BoardDao" p:sqlSession-ref="sqlSession" />
+	<bean id="boardService" class="model.BoardService" p:boardDao-ref="boardDao" />
+
+</beans>

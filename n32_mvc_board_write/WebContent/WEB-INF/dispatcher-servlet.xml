@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:c="http://www.springframework.org/schema/c" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+
+	<!-- 1. jdbc.properties 파일 placeholder, BasicDataSource빈 등록 -->
+	<context:property-placeholder location="classpath:config/jdbc.properties" />
+
+	<!-- db 정보 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${JDBC.Driver}" />
+		<property name="url" value="${JDBC.ConnectionURL}" />
+		<property name="username" value="${JDBC.Username}" />
+		<property name="password" value="${JDBC.Password}" />
+	</bean>
+
+	<!-- 2. MyBatis 설정 부분 :: sqlSessionFactory,sqlSession 둥록 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="WEB-INF/SqlMapConfig.xml" />
+	</bean>
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+
+	<!--3. MemberDao/MemberService 설정 ::id는 각각 memberDao, memberService -->
+	<bean id="memberDao" class="model.MemberDao" p:sqlSession-ref="sqlSession" />
+	<bean id="memberService" class="model.MemberService"
+		p:memberDao-ref="memberDao" />
+	<bean id="boardDao" class="model.BoardDao" p:sqlSession-ref="sqlSession" />
+	<bean id="boardService" class="model.BoardService" p:boardDao-ref="boardDao" />
+
+	<!-- 4. 라이브러리빈 설정부분 :: handlerMapping, viewResolver -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- 5. 컨트롤러 설정부분 :: methodNameResolver, MemberController -->
+	<bean id="methodNameResolver"
+		class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName" value="command" />
+	</bean>
+
+	<!-- 6. 게시판 관리 :: BoardDao, BoardService,BoardController 각각 아이디는 boardDao, 
+		boardService로 하자 -->
+	<bean name="/board.do" class="controller.BoardController">
+		<property name="methodNameResolver" ref="methodNameResolver" />
+		<property name="boardService" ref="boardService" />
+	</bean>
+	
+	<bean name="/member.do" class="controller.MemberController">
+		<property name="methodNameResolver" ref="methodNameResolver" />
+		<property name="memberService" ref="memberService" />
+	</bean>
+</beans>

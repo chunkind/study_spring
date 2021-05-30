@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+<context:property-placeholder location="classpath:config/jdbc.properties"/>
+
+<!-- db 정보 -->
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<property name="driverClassName" value="${JDBC.Driver}"/>
+	<property name="url" value="${JDBC.ConnectionURL}"/>
+	<property name="username" value="${JDBC.Username}"/>
+	<property name="password" value="${JDBC.Password}"/>
+</bean>
+
+<!--MyBatis Framework  -->
+<!-- classpath 생략 못함.. -->
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="dataSource" ref="dataSource"/>
+	<property name="configLocation" value="classpath:config/SqlMapConfig.xml"/>
+</bean>
+
+<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	<constructor-arg ref="sqlSessionFactory" />
+</bean>
+
+<!--  Dao-->
+<bean id="myProductDao" class="com.product.impl.MyProductDaoImpl">
+	<property name="sqlSession" ref="sqlSession" />
+</bean>
+
+<!-- Service -->
+<bean id="myProductService" class="com.product.impl.MyProductServiceImpl">
+	<property name="myProductDao" ref="myProductDao"/>
+</bean>
+
+<!-- aop 빈 설정문서 
+	1. 검색어 통계관련 빈 :: reportDao/reportService
+-->
+<bean id="reportDao" class="com.aop.model.ReportDaoImpl">
+	<property name="sqlSession" ref="sqlSession"/>
+</bean>
+<bean id="reportService" class="com.aop.model.ReportServiceImpl">
+	<property name="reportDao" ref="reportDao"/>
+</bean>
+<!--  -->
+<!-- presentation layer... myProductController -->
+<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<property name="prefix" value="/WEB-INF/views/"/>
+	<property name="suffix" value=".jsp"/>
+</bean>
+<bean id="methodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+	<property name="paramName" value="command"/>
+</bean>
+<bean name="/myproduct.do" class="com.product.controller.MyProductController">
+	<property name="methodNameResolver" ref="methodNameResolver"/>
+	<property name="myProductService" ref="myProductService"/>
+</bean>
+<!-- aop... -->
+<bean name="/report.do" class="com.aop.controller.ReportController">
+	<property name="reportService" ref="reportService"/>
+	<property name="methodNameResolver" ref="methodNameResolver"/>
+</bean>
+<!--  2. aop빈 설정-->
+<bean id="reportAspect" class="com.aop.advice.ReportAspect">
+	<property name="reportService" ref="reportService"/>
+</bean>
+
+<!-- 어떤 어드바이스가 target의 어떤 메소드에 위빙되는지를 등록 -->
+<aop:config>
+	<aop:aspect id="reportAdvice" ref="reportAspect">
+		<aop:pointcut expression="execution(public * com.product.impl.*Dao*.find*(String))" id="arroundP"/>
+		<aop:around method="report" pointcut-ref="arroundP"/>
+	</aop:aspect>
+</aop:config>
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	eclipse 에서 스프링 프레임워크 적용해 프로젝트를 진행 시 아래와 같은 장애 발생한다.
+	cvc-complex-type-3.2.2: Attribute 'local' is not allowed to appear in element 'ref'
+	스프링 4.0 부터는 spring-beans.xsd 에서 local을 지원하지 않기에 스프링 프레임워크 4.0버젼 이하의 프로젝트 일 경우 아래와 같이 bean 설정을 수정한다.
+-->
+<!-- <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"> -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+<!-- aop 스키마를 사용하지 않고 직접 라이브러리 클래스를 등록해서 사용하겠다. -->
+	<bean id = "targetBean" class = "api3.MessageBeanImpl">
+		<property name="name" value = "Spring"/>
+	</bean>
+	
+	<bean id = "loggingAdvice" class = "api3.LoggingAdvice"/>
+	
+	<bean id = "proxy" class = "org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target">
+			<ref local = "targetBean"/>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>advisor</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id = "advisor" class = "org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="advice">
+			<ref local = "loggingAdvice"/>
+		</property>
+		<property name="pointcut">
+			<bean class = "org.springframework.aop.support.JdkRegexpMethodPointcut">
+				<property name="pattern">
+					<value>.*sayHello.*</value>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>

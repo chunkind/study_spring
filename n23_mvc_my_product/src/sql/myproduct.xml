@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	상품정보를 등록하는 쿼리문 작성..
+	selectKey ::
+	insert 문에서만 사용 / 시퀀스가 있는 경우만 사용
+	keyProperty에는 시퀀스에 해당하는 vo의 컬럼명이 들어온다.
+	order="BEFORE"는 해당 구문을 먼저 수행한다는 의미이다.
+	그렇기 때문에 아래 #{id}의 경우에는 이미 vo에 박혀있는 시퀀스값을 가져올수가
+	있다. vo.getId()의 원리에 따라서..
+-->
+<mapper namespace="Product">
+	<insert id="insertMyProduct" parameterType="product">
+		<selectKey keyProperty="id" resultType="int" order="BEFORE">
+			SELECT myproduct_seq.nextVal FROM dual
+		</selectKey>
+		INSERT
+		INTO myproduct VALUES (#{id},#{name},#{maker},#{price})
+	</insert>
+	
+	<resultMap type="product" id="productSelectMap">
+		<result property="id" column="id" jdbcType="NUMERIC"/>
+		<result property="name" column="name" jdbcType="VARCHAR"/>
+		<result property="maker" column="maker" jdbcType="VARCHAR"/>
+		<result property="price" column="price" jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<sql id = "selectProduct">
+		SELECT
+		id, name, maker, price
+		FROM myproduct
+	</sql>
+	
+	<select id="findByProductName" parameterType="string" resultMap="productSelectMap">
+		<include refid="selectProduct"/>
+		WHERE name LIKE '%' || #{value} || '%'
+	</select>
+	
+	<select id="findByMaker" parameterType="string" resultMap="productSelectMap">
+	SELECT
+	id, name, maker, price
+	FROM myproduct
+	WHERE maker = #{maker}
+	</select>
+	
+</mapper>

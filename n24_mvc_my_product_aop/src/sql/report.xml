@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Report">
+	<insert id="insertReport" parameterType="string">
+		INSERT INTO REPORT VALUES(#{value},1)
+	</insert>
+	<update id="updateReport" parameterType="string">
+		UPDATE REPORT SET CNT = CNT+1 WHERE WORD = #{value}
+	</update>
+	<select id="selectReport" resultType="hashmap">
+		<![CDATA[
+		SELECT WORD
+			 , CNT
+			 , RANKING
+		  FROM ( 
+		  		 SELECT WORD
+		  			  , CNT
+		  			  , RANK() OVER(ORDER BY CNT DESC) AS RANKING 
+		  		   FROM REPORT
+		  		)
+		 WHERE RANKING <=5
+		]]>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
