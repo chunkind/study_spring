@@ -37,23 +37,3 @@
 	<bean name="downloadView" class="util.DownloadView" />
 
 </beans>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

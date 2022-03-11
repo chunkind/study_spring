@@ -15,22 +15,17 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 public class UploadController extends MultiActionController{
-	
 	private String path;
-	
 	
 	public void setPath(String path) {
 		this.path = path;
 	}
 
-
-	public ModelAndView fileUpload(HttpServletRequest request, 
-								HttpServletResponse response, UpdateDataVO vo)
-															throws IOException{
+	public ModelAndView fileUpload(HttpServletRequest request, HttpServletResponse response, UpdateDataVO vo) throws IOException{
 		//1. upload된 파일을 받아온다.
 		MultipartFile mFile = vo.getUploadFile();
 		System.out.println("MultipartFile :: "+mFile);
-		
+
 		//2. 업로드된 파일이 있다면...
 		//파일의 사이즈
 		//파일의 원래이름
@@ -46,9 +41,9 @@ public class UploadController extends MultiActionController{
 		System.out.println("path :: "+ path);
 		return new ModelAndView("upload_result","uploadfile",mFile.getOriginalFilename());
 	}
+
 	//fileDown 추가
-	public ModelAndView fileDown(HttpServletRequest request, 
-			HttpServletResponse response)throws IOException{
+	public ModelAndView fileDown(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		System.out.println("File Download.."+request.getParameter("filename"));
 		
 		//Map에 Path를 setting...util>DownloadView를 참조해서 작성한다...
