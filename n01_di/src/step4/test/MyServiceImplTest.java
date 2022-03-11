@@ -1,5 +1,4 @@
-package test;
-
+package step4.test;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
@@ -8,9 +7,12 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
-import step1.src.MyService;
+import step4.MyService;
 
-/*
+/**
+ * @Auth: K. J. S.
+ * @Date: 2022. 3. 12.
+ * 
  * 1. 설정문서를 읽어서 Resource를 반환받는다.
  * 2. Resource를 인자값으로 BeanFactory를 생성
  * 3. 빈을 하나 얻어옴.
@@ -31,8 +33,8 @@ import step1.src.MyService;
  * 
  *	두 컨테이너의 공통점은 빈을 싱글톤으로 만들고 관리한다는 점이다.
  */
-public class MyServiceImplTest1 {
-	private static String xmlPath = "src/step1/src/msg1.xml";
+public class MyServiceImplTest {
+	private static String xmlPath = "src/step4/msg1.xml";
 	
 	public static void main(String[] args) {
 		//example01();

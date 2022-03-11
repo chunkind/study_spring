@@ -1,4 +1,4 @@
-package step1.src;
+package step4;
 /*
  * 빈 설정문서에서 빈을 등록
  * 

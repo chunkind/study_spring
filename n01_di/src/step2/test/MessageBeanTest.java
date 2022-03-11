@@ -1,21 +1,13 @@
-﻿package test;
+﻿package step2.test;
 
-import step2.src.MessageBean;
-import step2.src.MessageBeanEn;
-import step2.src.MessageBeanKr;
+import step2.MessageBean;
+import step2.MessageBeanEn;
+import step2.MessageBeanKr;
 
-public class MessageBeanTest2 {
-
-	public static void main(String[] args) {
-		MessageBean bean1 = new MessageBeanEn();
-		MessageBean bean2 = new MessageBeanKr();
-		
-		bean1.sayHello("Spring..");
-		bean2.sayHello("스프링...");
-	}
-
-}
-/*
+/**
+ * @Auth: K. J. S.
+ * @Date: 2022. 3. 12.
+ * 
  * step1에 비해서 인터페이스를 이용함으로써
  * 결합도가 많이 loose해졌다
  * 결합도가 낮아짐 --> 재사용성이 이전에 비해서 강화됬음을 의미 
@@ -31,14 +23,13 @@ public class MessageBeanTest2 {
  * DI/IOC 컨테이너를 사용해 보도록 하겠다.. 
  * 빈을 만들어서 갔다가 넣어준다 
  * IOC : 제어의 역전
- * 
- * 
  */
-
-
-
-
-
-
-
-
+public class MessageBeanTest {
+	public static void main(String[] args) {
+		MessageBean bean1 = new MessageBeanEn();
+		MessageBean bean2 = new MessageBeanKr();
+		
+		bean1.sayHello("Spring..");
+		bean2.sayHello("스프링...");
+	}
+}

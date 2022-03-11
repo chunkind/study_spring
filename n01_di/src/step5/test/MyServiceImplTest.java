@@ -1,15 +1,14 @@
-package test;
+package step5.test;
 
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 
-import step2.src.MyService;
+import step5.MyService;
 
-/*
+/**
+ * @Auth: K. J. S.
+ * @Date: 2022. 3. 12.
+ * 
  * 1. 설정문서를 읽어서 Resource를 반환받는다 
  * 2. Resource를 인자값으로 BeanFactory를 생성
  * 3. 빈을 하나 얻어옴
@@ -23,14 +22,13 @@ import step2.src.MyService;
  *     서블릿에서 Ready On 과정의 기능이 먼저 작동되기 위해서 
  *     load-startup 태그를 기술했던 것과 거의 동일한 원리이다. 
  *     
- *     두 컨테이너의 공통점은 빈을 싱글톤으로 만들고 관리한다는 점. 
+ *     두 컨테이너의 공통점은 빈을 싱글톤으로 만들고 관리한다는 점.
  */
-public class MyServiceImplTest2 {
-
+public class MyServiceImplTest {
 	public static void main(String[] args) {
 		//pre Loading이 되도록 로직을 다시 작성 
 		System.out.println("1.공장을 생성합니다...");
-		ApplicationContext factory = new FileSystemXmlApplicationContext("src/step2/src/msg2.xml");
+		ApplicationContext factory = new FileSystemXmlApplicationContext("src/step5/msg.xml");
 		
 		System.out.println("2.getBean() call...");
 		MyService service1 =factory.getBean("msg2",MyService.class);
@@ -40,11 +38,10 @@ public class MyServiceImplTest2 {
 		System.out.println("3.Biz Logic call...");
 		System.out.println(service1.printMsg());
 		
-		/*Resource r = new FileSystemResource("src/step1/src/msg1.xml");
+		/*Resource r = new FileSystemResource("src/step4/msg.xml");
 		BeanFactory factory = new XmlBeanFactory(r);
 		
 		MyServiceImpl ms = factory.getBean("msg1",MyServiceImpl.class);
 		System.out.println(ms.printMsg());*/
 	}
-
 }

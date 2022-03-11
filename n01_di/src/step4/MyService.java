@@ -1,4 +1,4 @@
-package step1.src;
+package step4;
 
 public interface MyService {
 	String printMsg();
