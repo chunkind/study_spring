@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<bean id="target" class="step11.DaoImpl"/>
+	<bean id="timeAdvice" class="step11.TimeAdvice"/>
+	
+	<!-- advice 추가.. AfterReturning -->
+	<bean id="afterAdvice" class="step11.AfterRetuningAdvice"/>
+	
+	<aop:config>
+		<aop:aspect id="timeAspect" ref="timeAdvice">
+			<aop:pointcut expression="execution(* step11.Dao*.re*(..))" id="regiPointCut"/>
+			<aop:around method="time" pointcut-ref="regiPointCut"/>
+		</aop:aspect>
+		
+		<aop:aspect id="afterAspect" ref="afterAdvice">
+			<aop:pointcut expression="execution(* step11.Dao*.fi*())" id="fiPointCut"/>
+			<aop:after-returning method="afterMethod" pointcut-ref="fiPointCut" returning="ret"/>
+		</aop:aspect>
+	</aop:config>
+</beans>

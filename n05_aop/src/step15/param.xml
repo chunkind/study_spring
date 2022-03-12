@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="customer" class="step15.model.impl.CustomerImpl"/>
+	<bean id="member" class="step15.model.impl.MemberImpl"/>
+	<bean id="logging" class="step15.aop.ParamAdvice"/>
+	
+	<aop:config>
+		<aop:aspect id="loggingAspect" ref="logging">
+			<aop:pointcut id="pointCut" expression="execution(* step15.model..*(..))"/>
+			<aop:before method="checkParam" pointcut-ref="pointCut"/>
+		</aop:aspect>
+	</aop:config>
+	<!-- 
+	PointCut 조건 ::
+	리턴 타입은 상관없다..
+	step15 밑에 model 패키지 밑에 있는 모든 패키지와 모든 클래스에 적용
+	이때 메소드는 인자값의 갯수가 0 이상이어야 한다..
+	before 어드바이스 방식.
+	 -->
+	
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
+</beans>

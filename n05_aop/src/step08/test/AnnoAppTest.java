@@ -5,7 +5,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import step08.MessageBean;
 
-
 public class AnnoAppTest {
 	public static void main(String[] args) {
 		ApplicationContext factory = new ClassPathXmlApplicationContext("step08/anno.xml");

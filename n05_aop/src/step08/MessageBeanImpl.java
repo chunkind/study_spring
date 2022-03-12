@@ -3,12 +3,10 @@ package step08;
 public class MessageBeanImpl implements MessageBean{
 	private String name;
 	
-	
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	//비지니스 로직에 해당.. 구현
 	@Override
 	public void sayHello() {
 		try{
