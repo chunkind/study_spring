@@ -12,12 +12,12 @@ public class MessageBeanTest {
 	public static void main(String[] args) throws IOException{
 		ApplicationContext factory = new ClassPathXmlApplicationContext("step7/xml/message.xml");
 		
-		MessageBean bean = factory.getBean("message1", MessageBean.class);
+		MessageBean bean = factory.getBean("message", MessageBean.class);
 		
 		bean.sayMessage();
 		
 		//추가
-		Outputter bean2 = factory.getBean("output",Outputter.class);
-		bean2.output("잘생김 .. 우성");
+		Outputter bean2 = factory.getBean("output", Outputter.class);
+		bean2.output("잘생김 .. 준성\n");
 	}
 }

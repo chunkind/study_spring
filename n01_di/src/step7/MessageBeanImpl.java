@@ -1,11 +1,8 @@
 package step7;
 
 public class MessageBeanImpl implements MessageBean{
-
-	private String name;	// 생성자 주입
-	private String greeting;	// setter() 주입
-	
-	//추가..
+	private String name;//생성자 주입
+	private String greeting;//setter() 주입
 	private Outputter outputter;
 
 	public MessageBeanImpl(String name) {

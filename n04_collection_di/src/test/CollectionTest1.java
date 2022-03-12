@@ -25,12 +25,3 @@ public class CollectionTest1 {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-

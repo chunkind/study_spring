@@ -34,10 +34,10 @@ import step4.MyService;
  *	두 컨테이너의 공통점은 빈을 싱글톤으로 만들고 관리한다는 점이다.
  */
 public class MyServiceImplTest {
-	private static String xmlPath = "src/step4/msg1.xml";
+	private static String xmlPath = "src/step4/msg.xml";
 	
 	public static void main(String[] args) {
-		//example01();
+//		example01();
 		example02();
 	}
 	
@@ -50,7 +50,7 @@ public class MyServiceImplTest {
 		BeanFactory beanFactory = new XmlBeanFactory(resource);
 		
 		System.out.println("3.공장에서 생성된 빈을 가져온다.");
-		MyService myServiceBean1 = beanFactory.getBean("msg1", MyService.class);
+		MyService myServiceBean1 = beanFactory.getBean("msg", MyService.class);
 		
 		System.out.println("4.생성된 빈을 사용한다.");
 		System.out.println(myServiceBean1.printMsg());
@@ -62,8 +62,8 @@ public class MyServiceImplTest {
 		ApplicationContext applicationContext = new FileSystemXmlApplicationContext(xmlPath);
 		
 		System.out.println("2.공장에서 생성된 빈을 가져온다.");
-		MyService myServiceBean1 = applicationContext.getBean("msg1", MyService.class);
-		MyService myServiceBean2 = applicationContext.getBean("msg1", MyService.class);
+		MyService myServiceBean1 = applicationContext.getBean("msg", MyService.class);
+		MyService myServiceBean2 = applicationContext.getBean("msg", MyService.class);
 		
 		System.out.println("3.생성된 빈을 사용한다.");
 		System.out.println(myServiceBean1.printMsg());

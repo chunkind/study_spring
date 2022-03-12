@@ -3,11 +3,10 @@ package step4;
  * 빈 설정문서에서 빈을 등록
  * 
  */
-public class MyserviceImpl implements MyService{
-
+public class MyServiceImpl implements MyService{
 	private String msg;
 	
-	public MyserviceImpl() {
+	public MyServiceImpl() {
 		System.out.println("Bean..Creating..");
 	}
 	
@@ -16,9 +15,7 @@ public class MyserviceImpl implements MyService{
 		this.msg = msg;
 	}
 
-
 	public String printMsg() {
-		
 		return msg;
 	}
 }

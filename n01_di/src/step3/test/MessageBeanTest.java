@@ -39,7 +39,6 @@ public class MessageBeanTest {
 		BeanFactory beanFactory = new XmlBeanFactory(resource);
 		
 		System.out.println("3.공장에 생성된 빈을 가져옴..");
-		
 		MessageBean messageBean1 = beanFactory.getBean("message1", MessageBean.class );
 		MessageBean messageBean2 = (MessageBean)beanFactory.getBean("message2");
 		

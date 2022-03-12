@@ -1,9 +1,14 @@
 package step5.test;
 
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 import step5.MyService;
+import step5.MyServiceImpl;
 
 /**
  * @Auth: K. J. S.
@@ -31,17 +36,18 @@ public class MyServiceImplTest {
 		ApplicationContext factory = new FileSystemXmlApplicationContext("src/step5/msg.xml");
 		
 		System.out.println("2.getBean() call...");
-		MyService service1 =factory.getBean("msg2",MyService.class);
-		MyService service2 =factory.getBean("msg2",MyService.class);
-		System.out.println(service1==service2);  //true 
+		MyService service1 =factory.getBean("msg2", MyService.class);
+		MyService service2 =factory.getBean("msg2", MyService.class);
+		System.out.println(service1==service2);//true 
 		
 		System.out.println("3.Biz Logic call...");
 		System.out.println(service1.printMsg());
 		
-		/*Resource r = new FileSystemResource("src/step4/msg.xml");
-		BeanFactory factory = new XmlBeanFactory(r);
+		//2.
+		Resource r = new FileSystemResource("src/step4/msg.xml");
+		BeanFactory factory2 = new XmlBeanFactory(r);
 		
-		MyServiceImpl ms = factory.getBean("msg1",MyServiceImpl.class);
-		System.out.println(ms.printMsg());*/
+		step4.MyServiceImpl ms = factory2.getBean("msg1", step4.MyServiceImpl.class);
+		System.out.println(ms.printMsg());
 	}
 }

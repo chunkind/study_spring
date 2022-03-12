@@ -2,14 +2,18 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-<!-- msg2이라는 이름으로 빈을 등록
-	 Spring Member...Welcome을 생성자 주입의 값으로 설정한다.
- -->
-	<bean id="msg2" class="step5.MyserviceImpl">
+	<!-- msg2이라는 이름으로 빈을 등록  Spring Member...Welcome을 생성자 주입의 값으로 설정한다.-->
+	<bean id="msg2" class="step5.MyServiceImpl">
+		<constructor-arg>
+			<value>Spring Member...Welcome</value>
+		</constructor-arg>
+		<!-- <constructor-arg value="Spring Member...Welcome"/> -->
+	</bean>
+	
+	<bean id="msg3" class="step5.MyServiceImpl">
 		<!-- <constructor-arg>
 			<value>Spring Member...Welcome</value>
 		</constructor-arg> -->
-		
-		<constructor-arg value = "Spring Member...Welcome"/>
+		<constructor-arg value="Spring Member...Welcome"/>
 	</bean>
 </beans>
