@@ -11,9 +11,7 @@ import step7.Outputter;
 public class MessageBeanTest {
 	public static void main(String[] args) throws IOException{
 		ApplicationContext factory = new ClassPathXmlApplicationContext("step7/xml/message.xml");
-		
 		MessageBean bean = factory.getBean("message", MessageBean.class);
-		
 		bean.sayMessage();
 		
 		//추가

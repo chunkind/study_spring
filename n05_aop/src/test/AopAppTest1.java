@@ -7,10 +7,8 @@ import prob.MemberService;
 import prob.ProductService;
 
 public class AopAppTest1 {
-
 	public static void main(String[] args) {
-		ApplicationContext factory = new
-				ClassPathXmlApplicationContext("prob.xml");
+		ApplicationContext factory = new ClassPathXmlApplicationContext("prob.xml");
 		
 		MemberService m = (MemberService)factory.getBean("member");
 		ProductService p = (ProductService)factory.getBean("product");
@@ -23,5 +21,4 @@ public class AopAppTest1 {
 		p.searchProduct("Ajax");
 		p.updateProduct("json");
 	}
-
 }

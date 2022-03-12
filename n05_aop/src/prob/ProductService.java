@@ -1,4 +1,5 @@
 package prob;
+
 /*
  * MemberService와 마찬가지로 ProductService도
  * 비지니스 로직(Core Concern)이 들어가 있는 Target 객체이다.
@@ -10,23 +11,19 @@ import org.apache.commons.logging.LogFactory;
 
 public class ProductService {
 	private Log log = LogFactory.getLog(getClass());
-	//비지니스 로직
+
 	public void deleteProduct(){
 		System.out.println("상품이 삭제되었습니다.");
-		
 		log.info("delete Product..");
 	}
-	
+
 	public void updateProduct(String id){
-		//비지니스 로직 잇다 치고
 		System.out.println("상품 정보를 수정했습니다..");
-		
 		log.info("update Product..");
 	}
-	
+
 	public void searchProduct(String id){
 		System.out.println(id + " 로 상품을 검색했습니다.");
 		log.info("search Product..");
 	}
-
 }

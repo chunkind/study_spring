@@ -19,6 +19,8 @@ public class MyServiceImplTest {
 		MyService service1 = factory.getBean("msg", MyService.class);
 		System.out.println(service1.msg());
 		
+		System.out.println("================================================");
+		
 		//2.
 		Resource r = new FileSystemResource("src/step4/msg.xml");
 		BeanFactory factory2 = new XmlBeanFactory(r);

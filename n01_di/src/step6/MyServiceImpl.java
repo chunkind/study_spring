@@ -11,19 +11,23 @@ public class MyServiceImpl implements MyService{
 	
 	public MyServiceImpl(String name){
 		this.name = name;
+		System.out.println("call MyServiceImpl.. name:" + name);
 	}
 	
 	//나머지 필드는 setter()를 통한 값의 주입.
 	@Override
 	public String msg() {
+		System.out.println("call msg..");
 		return "num : " + num + ", data : " + data + ", name : " + name;
 	}
 
 	public void setNum(int num) {
 		this.num = num;
+		System.out.println("call setNum.. num:" + num);
 	}
 
 	public void setData(Integer data) {
 		this.data = data;
+		System.out.println("call setData.. data:" + data);
 	}
 }

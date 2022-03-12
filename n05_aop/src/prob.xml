@@ -4,5 +4,4 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="member" class="prob.MemberService"/>
 	<bean id="product" class="prob.ProductService"/>
-
 </beans>
