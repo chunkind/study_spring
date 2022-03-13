@@ -17,5 +17,4 @@ public class DiceTestApp01 {
 		System.out.println("=======================");
 		
 	}
-}//end of class
-
+}
