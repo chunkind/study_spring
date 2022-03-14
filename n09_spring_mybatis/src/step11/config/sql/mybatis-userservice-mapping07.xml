@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- Dynamic Query.. 동적인 쿼리문 작성 -->
+<!-- 
+	select문은 리턴되는 것들이 다양하게 나올수 있다.
+	resultMap을 사용하는 것이 더 정확도가 높다.
+	select문에서 사용되는 명시적인 결과맵이다.
+	ResultSet에서 바인딩 되는 비지니스 객체를 정의하는 Map이라 볼수있다.
+-->
+<mapper namespace="User07">
+	<resultMap type="user" id="userSelectMap">
+		<result property="userId" column="user_id" jdbcType="VARCHAR"/>
+		<result property="userName" column="user_name" jdbcType="VARCHAR"/>
+		<result property="password" column="password" jdbcType="VARCHAR"/>
+		<result property="age" column="age" jdbcType="NUMERIC"/>
+		<result property="grade" column="grade" jdbcType="NUMERIC"/>
+		<result property="regDate" column="reg_date" jdbcType="DATE"/>
+	</resultMap>
+	<!-- 정적인 쿼리문. -->
+<!-- 	<select id="getUserList01" parameterType="user" resultMap="userSelectMap">
+		SELECT
+		user_id AS userId,
+		user_name AS userName,
+		password AS password,
+		age AS age,
+		grade AS grade,
+		reg_date AS regDate
+		FROM users
+		WHERE user_id=#{userId}
+	</select> -->
+	
+	<!-- 동적인 쿼리문
+	이름이 홍길동 혹은 나이가 30인 user를 select 해오는 경우.
+	 -->
+<select id="getUserList01" parameterType="user" resultMap="userSelectMap">
+		SELECT
+		user_id, user_name, password, age, grade, reg_date
+		FROM users
+		<where>
+			<if test = "userName != null">
+				user_name LIKE #{userName}
+			</if>
+			<if test = "age != null">
+				OR age LIKE #{age}
+			</if>
+		</where>
+		ORDER BY user_id DESC
+</select>
+
+</mapper>

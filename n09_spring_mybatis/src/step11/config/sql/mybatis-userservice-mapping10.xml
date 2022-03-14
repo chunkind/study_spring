@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+완벽한 형태의 CRUD가 들어있는 MAPPER
+이게 돌아간다는 것은 MyBatis Framework가 돌아간다는 의미이다.
+일종의 단위테스트...MyBatisTestApp101.java와 붙일 것이다..
+ -->	
+<mapper namespace="User10">
+	<resultMap type="user" id="userSelectMap">
+		<result property="userId" column="user_id" jdbcType="VARCHAR"/>
+		<result property="userName" column="user_name" jdbcType="VARCHAR"/>
+		<result property="password" column="password" jdbcType="VARCHAR"/>
+		<result property="age" column="age" jdbcType="NUMERIC"/>
+		<result property="grade" column="grade" jdbcType="NUMERIC"/>
+		<result property="regDate" column="reg_date" jdbcType="DATE"/>	
+	</resultMap> 
+	
+	<!-- insert -->
+	<insert id="addUser" parameterType="user">
+		INSERT
+		INTO users(user_id, user_name, password, age, grade, reg_date)
+		VALUES(
+			#{userId},#{userName}, #{password}, #{age}, #{grade}, #{regDate}
+		)		
+	</insert>
+	
+	<!-- update -->
+	<update id="updateUser" parameterType="user">
+		UPDATE users
+		SET user_name=#{userName},
+		    password=#{password},
+		    age=#{age},
+		    grade=#{grade}
+		WHERE user_id=#{userId}	
+	</update>
+	
+	<!-- delete -->
+	<delete id="removeUser" parameterType="string">
+		DELETE
+		FROM users
+		WHERE user_id=#{value}
+	</delete>
+	
+	<!--  SQL 구문의 모듈화-->
+	<sql id="select-users">
+		SELECT 
+		user_id ,user_name, password, age, grade, reg_date
+		FROM users
+	</sql>
+	<sql id="orderby-userid-desc">
+		ORDER BY user_id DESC
+	</sql>
+	<!--  static 쿼리문.-->
+ 	<select id="getUser" parameterType="user" resultMap="userSelectMap">
+		SELECT 
+		user_id ,user_name, password, age, grade, reg_date
+		FROM users
+		WHERE user_id=#{userId}
+	</select>
+	
+	
+	<!-- dynamic 쿼리문 	:: sql 구문의 재사용(include)-->
+	 <select id="getUserList" parameterType="user" resultMap="userSelectMap">
+	 	<include refid="select-users"/>
+		<where>
+			<if test="userName != null">
+				user_name LIKE #{userName}
+			</if>
+			<if test="age != null">
+				OR age LIKE #{age}
+			</if>			
+		</where>
+		<include refid="orderby-userid-desc"/>
+	 </select> 
+</mapper>
