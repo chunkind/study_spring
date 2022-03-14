@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+sqlCode를 xml 기반으로 작성하는 메타데이타
+이때 상위태그 mapper에 반드시 namespace 속성을 줘야 한다.
+-->
+<mapper namespace="mj"><!-- mapper에는 반드시 name속성을 줘야 한다 -->
+	<insert id="ins" parameterType="mysavo">
+		INSERT
+		INTO mysawon VALUES(
+			mysawon_seq.nextVal, #{id}, #{pwd}, #{name}, #{age}, sysdate 
+			<!-- ps.setString(2, mysavo.getId()) 얜 오르쪽이랑 똑같다==> #{id} -->
+		)
+	</insert>
+	<select id = "sel" resultType = "mysavo">
+		SELECT
+		num, id, name, age, to_char(hiredate, 'yyyy-MM-dd') hiredate
+		FROM mysawon ORDER BY num DESC
+	</select>
+</mapper>
+
