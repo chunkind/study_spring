@@ -1,6 +1,6 @@
 package step02.play;
 
-import spring.service.dice.Dice;
+import step02.service.Dice;
 
 public class Player02 {
 	private Dice dice;

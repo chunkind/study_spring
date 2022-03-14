@@ -2,7 +2,7 @@ package step02.service.impl;
 
 import java.util.Random;
 
-import spring.service.dice.Dice;
+import step02.service.Dice;
 
 public class DiceBImpl implements Dice{
 	private int value;

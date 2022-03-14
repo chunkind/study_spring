@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import spring.service.dice.Dice;
+import step02.service.Dice;
 
 /*
  *	어플리케이션 객체간의 연관관계 형성은 DI개념의 핵심이며 이러한 객체간의 연관을 Wiring 이라 한다.
