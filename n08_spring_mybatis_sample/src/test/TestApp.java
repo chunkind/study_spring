@@ -1,6 +1,7 @@
-package client;
+package test;
 
 import java.io.Reader;
+import java.util.List;
 import java.util.Scanner;
 
 import org.apache.ibatis.io.Resources;
@@ -8,11 +9,16 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import config.FactoryService;
 import vo.MySawonVO;
 
-//dao 없이 바로간다.
-public class SawonAddTest {
+public class TestApp {
 	public static void main(String[] args) {
+//		insertSawon();
+		selectAllSawon();
+	}
+
+	private static void insertSawon() {
 		Scanner sc = new Scanner(System.in);
 		MySawonVO vo = new MySawonVO();
 		
@@ -48,6 +54,17 @@ public class SawonAddTest {
 			System.out.println(result + "명이 추가되었습니다..");
 		}catch(Exception e){
 			e.printStackTrace();
+		}
+	}
+	
+	private static void selectAllSawon() {
+		SqlSessionFactory factory = FactoryService.getFactory();
+		SqlSession session = factory.openSession();
+		
+		List<MySawonVO> list = session.selectList("sel");
+		
+		for(MySawonVO v : list){
+			System.out.println("이름 : " +v.getName() + ", 번호 :" + v.getNum());
 		}
 	}
 }
