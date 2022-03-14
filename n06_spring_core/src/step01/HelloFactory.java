@@ -1,34 +1,24 @@
-package spring.service.hello;
+package step01;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-/*
- * FileName : HelloFactory.java
- * ㅇ hello.properties file(부가정보,Meta-Data) 의 내용을 읽어 Hello instance 를 생성 return.
- */
 public class HelloFactory {
-	///Field
 	private Hello hello;
 	private Properties properties;
 	private static HelloFactory helloFactory;
 	
-	///Constructor Method
-	private HelloFactory(){
-	}
+	private HelloFactory(){}
 	
-	///Method
-	//==> HelloFactory instance 를  return 하는 static method(SingleTon) 
-	public synchronized static  HelloFactory getInstance() {
+	public synchronized static HelloFactory getInstance() {
 		if( helloFactory == null){
 			helloFactory = new HelloFactory();
 		}
 		return helloFactory;
 	}
 	
-	//==> properties file 을 추상화,캡슐화한  java.util.Properties instance 생성 
 	public void setConfigResource(String configResource) {
 		FileInputStream fis = null;
 		try {
@@ -54,8 +44,7 @@ public class HelloFactory {
 
   	//==> name 에 해당하는 instance 생성:: default constructor  
 	private void newInstanceHello(String name){
-		
-		String className = properties.getProperty(name).trim();  //==> trim() 앞뒤 공백 trim
+		String className = properties.getProperty(name).trim();
 		System.out.println("!! debug=>hello.properties 에서 추출한 className : "+className);
 
 		try {
@@ -74,10 +63,8 @@ public class HelloFactory {
 		}
 	}
 	
-  	//==> Hello instance 생성하는 newInstanceHello() 호출 및 Hello instance 를 return
 	public Hello getBean(String name){
 		this.newInstanceHello(name);
 		return hello;
 	}
-	
-}//end of class
+}
