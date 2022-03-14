@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+		
+	<util:properties id="sql" location="step07/config/spring-userservice-sql.properties" />
+	
+	<bean id="sqlService" class="step07.service.impl.SqlServiceImpl">
+		<property name="sqlMap" ref="sql"></property>
+	</bean>
+
+	<bean id="springJdbcUserDaoImpl" class="step07.dao.impl.SpringJdbcUserDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sqlService" ref="sqlService" />
+
+	</bean>
+</beans>

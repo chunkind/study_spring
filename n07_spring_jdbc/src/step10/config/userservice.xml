@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<util:properties id="sql" location="step10/config/spring-userservice-sql.properties" />
+
+	<!-- <context:component-scan base-package="spring.service.user" /> -->
+
+	<bean id="sqlService" class="step10.service.impl.SqlServiceImpl">
+		<property name="sqlMap" ref="sql" />
+	</bean>
+	
+	<!-- Annotation으로도 생략할수 없는 부분이다. -->
+	<bean id="springJdbcUserDaoImpl" class="step10.dao.impl.SpringJdbcUserDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sqlService" ref="sqlService" />
+	</bean>
+	
+	<bean id="springUserServiceImpl" class="step10.service.impl.SpringUserServiceImpl">
+		<property name="userDao" ref="springJdbcUserDaoImpl" />
+	</bean>
+
+</beans>
