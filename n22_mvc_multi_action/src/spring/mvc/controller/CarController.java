@@ -22,9 +22,7 @@ public class CarController extends AbstractCommandController{
    }
 
    @Override
-   protected ModelAndView handle(HttpServletRequest request,
-         HttpServletResponse response, Object command, BindException e)
-         throws Exception {
+   protected ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object command, BindException e) throws Exception {
       //바인딩 부분이 생략 될 수 있다.
 //      String model = request.getParameter("model");
 //      int price = Integer.parseInt(request.getParameter("price"));
